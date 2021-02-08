@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    <title>Layout Container Example</title>
+    <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
+    <script src="node_modules/opentok-layout-js/opentok-layout.min.js"></script>
+    <style type="text/css" media="screen">
+        #layoutContainer {
+            width: 320px;
+            height: 240px;
+            background-color: #DDD;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="layoutContainer">
+        <div id="publisherContainer"></div>
+    </div>
+</body>
+<script type="text/javascript" charset="utf-8">
+    var layoutContainer = document.getElementById("layoutContainer");
+
+    // Initialize the layout container and get a reference to the layout method
+    var layout = initLayoutContainer(layoutContainer).layout;
+
+    // Below is a normal hello world OpenTok application for v2 of the API
+    // The layout container will redraw when the layout mtehod is called and
+    // adjust the layout accordingly
+    var apiKey = "47090254";
+    var sessionId = "1_MX40NzA5MDI1NH5-MTYxMTE4NDI0ODA1MX5USTNSa0p2L1lRWitNczNMeFM3blBiUEl-fg";
+    var token = "T1==cGFydG5lcl9pZD00NzA5MDI1NCZzaWc9YTc3ZmRlM2Q4Y2JkZDNmOWRlMTFiYTM2MmE1OWYxYTdjYjA3ZDYzZDpzZXNzaW9uX2lkPTFfTVg0ME56QTVNREkxTkg1LU1UWXhNVEU0TkRJME9EQTFNWDVVU1ROU2EwcDJMMWxSV2l0TmN6Tk1lRk0zYmxCaVVFbC1mZyZjcmVhdGVfdGltZT0xNjExMTg0MjgyJm5vbmNlPTAuMjk0ODc4ODY0MDQ5OTY5MyZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNjEzNzc2MjgyJmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9";
+
+    var session = OT.initSession(sessionId);
+    session.on("streamCreated", function (event) {
+        session.subscribe(event.stream, "layoutContainer", {
+            insertMode: "append"
+        });
+        layout();
+    }).connect(apiKey, token, function (err) {
+        if (!err) {
+            session.publish("publisherContainer");
+            layout();
+        }
+    });
+</script>
+
+</html>
