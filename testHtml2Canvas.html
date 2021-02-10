@@ -1,18 +1,59 @@
 <html>
+
 <head>
     <title> OpenTok Getting Started </title>
     <link href="css/app.css" rel="stylesheet" type="text/css">
     <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
     <script src="modules/html2canvas/dist/html2canvas.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
+
 <body>
+    <button id="btn-Preview-Image">PREVIEW</button>
 
-    <!-- <div id="videos">
-        <div id="subscriber"></div>
-        <div id="publisher"></div>
-    </div>
+    <div id="previewImage"></div>
 
-    <script type="text/javascript" src="js/app.js"></script> -->
+    <iframe id="realtime"
+        src="https://portal.furioos.com/embed/214.300?whiteLabel=true&hideTitle=true&hideToolbar=true&autoRun=true"
+        allowfullscreen="true" style="border: none; width: 800px; height: 500px;"></iframe>
+
+
+    <script>
+
+
+        $("#btn-Preview-Image").on('click', function () {
+
+            console.log("TEST....");
+
+            // get iframe bodies
+            var $body1 = $('#realtime').contents().find("body");
+            
+
+            // clone body 1
+            var element = $($body1.html());
+
+            var getCanvas; // global variable
+
+            // // append body 2 content to body 1
+            // $body2.children().each(function () {
+            //     $element.append($(this).html());
+            // });
+
+            // try previwew
+            html2canvas(element, {
+                onrendered: function (canvas) {
+                    $("#previewImage").append(canvas);
+                    getCanvas = canvas;
+                }
+            });
+        });
+
+
+
+
+    </script>
+
 </body>
+
 </html>
